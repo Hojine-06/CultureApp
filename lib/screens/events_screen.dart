@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/event_model.dart';
 import 'event_detail_screen.dart';
 import 'event_edit_screen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class EventsScreen extends StatefulWidget {
   static const routeName = '/events';
@@ -24,8 +25,7 @@ class _EventsScreenState extends State<EventsScreen> {
           description: 'Un concert exceptionnel réunissant de grands artistes.',
           date: DateTime.now().add(const Duration(days: 7)),
           location: 'Théâtre Municipal',
-          imageUrl:
-              'https://images.unsplash.com/photo-1506152983158-3f0dd21aa5d6?w=800',
+          imageUrl: 'asset:assets/images/event1.svg',
         ),
         Event(
           id: 'e2',
@@ -33,8 +33,7 @@ class _EventsScreenState extends State<EventsScreen> {
           description: 'Nouvelles œuvres d\'artistes locaux et internationaux.',
           date: DateTime.now().add(const Duration(days: 14)),
           location: 'Galerie Centrale',
-          imageUrl:
-              'https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=800',
+          imageUrl: 'asset:assets/images/event2.svg',
         ),
         Event(
           id: 'e3',
@@ -42,8 +41,7 @@ class _EventsScreenState extends State<EventsScreen> {
           description: 'Trois jours de performances et d\'ateliers participatifs.',
           date: DateTime.now().add(const Duration(days: 21)),
           location: 'Parc des Expositions',
-          imageUrl:
-              'https://images.unsplash.com/photo-1519996525004-8f7e0f9b6d4d?w=800',
+          imageUrl: 'asset:assets/images/event3.svg',
         ),
       ];
 
@@ -101,13 +99,11 @@ class _EventsScreenState extends State<EventsScreen> {
                     width: 120,
                     height: 100,
                     color: Colors.grey.shade300,
-                    child: e.imageUrl != null
-                        ? Image.network(
-                            e.imageUrl!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (ctx, err, stack) => const Icon(Icons.broken_image),
-                          )
-                        : const Icon(Icons.event, size: 48, color: Colors.white70),
+                    child: e.imageUrl != null && e.imageUrl!.startsWith('asset:')
+                        ? SvgPicture.asset(e.imageUrl!.substring(6), fit: BoxFit.cover)
+                        : (e.imageUrl != null
+                            ? Image.network(e.imageUrl!, fit: BoxFit.cover, errorBuilder: (ctx, err, stack) => const Icon(Icons.broken_image))
+                            : const Icon(Icons.event, size: 48, color: Colors.white70)),
                   ),
                   const SizedBox(width: 12),
                   Expanded(

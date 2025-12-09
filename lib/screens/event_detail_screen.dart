@@ -38,24 +38,25 @@ class EventDetailScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: 200,
-                child: Image.network(
-                  event.imageUrl!,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                      color: Colors.grey.shade200,
-                      child: const Center(child: CircularProgressIndicator()),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    // Ne pas afficher le message d'erreur HTTP brut — montrer un placeholder
-                    return Container(
-                      color: Colors.grey.shade200,
-                      child: const Center(child: Icon(Icons.broken_image, size: 48)),
-                    );
-                  },
-                ),
+                child: event.imageUrl!.startsWith('asset:')
+                    ? SvgPicture.asset(event.imageUrl!.substring(6), fit: BoxFit.cover)
+                    : Image.network(
+                        event.imageUrl!,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            color: Colors.grey.shade200,
+                            child: const Center(child: CircularProgressIndicator()),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey.shade200,
+                            child: const Center(child: Icon(Icons.broken_image, size: 48)),
+                          );
+                        },
+                      ),
               )
             else
               Container(
