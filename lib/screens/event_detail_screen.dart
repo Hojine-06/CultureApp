@@ -33,11 +33,36 @@ class EventDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (event.imageUrl != null)
+            // Affiche l'image si l'URL est fournie, sinon un placeholder.
+            if (event.imageUrl != null && event.imageUrl!.isNotEmpty)
               SizedBox(
                 width: double.infinity,
                 height: 200,
-                child: Image.network(event.imageUrl!, fit: BoxFit.cover),
+                child: Image.network(
+                  event.imageUrl!,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      color: Colors.grey.shade200,
+                      child: const Center(child: CircularProgressIndicator()),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    // Ne pas afficher le message d'erreur HTTP brut — montrer un placeholder
+                    return Container(
+                      color: Colors.grey.shade200,
+                      child: const Center(child: Icon(Icons.broken_image, size: 48)),
+                    );
+                  },
+                ),
+              )
+            else
+              Container(
+                width: double.infinity,
+                height: 200,
+                color: Colors.grey.shade200,
+                child: const Center(child: Icon(Icons.event, size: 48, color: Colors.white70)),
               ),
             const SizedBox(height: 12),
             Text(
