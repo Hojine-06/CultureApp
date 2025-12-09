@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 
 import '../models/event_model.dart';
+import 'event_detail_screen.dart';
+import 'event_edit_screen.dart';
 
-class EventsScreen extends StatelessWidget {
+class EventsScreen extends StatefulWidget {
   static const routeName = '/events';
 
   const EventsScreen({Key? key}) : super(key: key);
 
+  @override
+  State<EventsScreen> createState() => _EventsScreenState();
+}
+
+class _EventsScreenState extends State<EventsScreen> {
   // Sample events data. Replace with real data source later.
+  List<Event> _events = [];
+
   List<Event> _sampleEvents() => [
         Event(
           id: 'e1',
@@ -38,6 +47,12 @@ class EventsScreen extends StatelessWidget {
         ),
       ];
 
+  @override
+  void initState() {
+    super.initState();
+    _events = _sampleEvents();
+  }
+
   String _formatDate(DateTime d) {
     final local = d.toLocal();
     return '${local.year}-${local.month.toString().padLeft(2, '0')}-${local.day.toString().padLeft(2, '0')}';
@@ -45,7 +60,7 @@ class EventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final events = _sampleEvents();
+    final events = _events;
 
     return Scaffold(
       appBar: AppBar(
@@ -60,27 +75,39 @@ class EventsScreen extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             elevation: 4,
             child: InkWell(
-                  onTap: () {
-                    // Navigate to event detail screen
-                    Navigator.of(context).pushNamed(
-                      EventDetailScreen.routeName,
-                      arguments: e,
-                    );
-                  },
+              onTap: () {
+                // Navigate to event detail screen
+                Navigator.of(context).pushNamed(
+                  EventDetailScreen.routeName,
+                  arguments: e,
+                );
+              },
+              onLongPress: () async {
+                // Edit event
+                final res = await Navigator.of(context).pushNamed(
+                  EventEditScreen.routeName,
+                  arguments: e,
+                );
+                if (res != null && res is Event) {
+                  setState(() {
+                    final idx = _events.indexWhere((ev) => ev.id == res.id);
+                    if (idx >= 0) _events[idx] = res;
+                  });
+                }
+              },
               child: Row(
                 children: [
                   Container(
                     width: 120,
                     height: 100,
-                    decoration: BoxDecoration(
-                      image: e.imageUrl != null
-                          ? DecorationImage(
-                              image: NetworkImage(e.imageUrl!),
-                              fit: BoxFit.cover,
-                            )
-                          : null,
-                      color: Colors.grey.shade300,
-                    ),
+                    color: Colors.grey.shade300,
+                    child: e.imageUrl != null
+                        ? Image.network(
+                            e.imageUrl!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (ctx, err, stack) => const Icon(Icons.broken_image),
+                          )
+                        : const Icon(Icons.event, size: 48, color: Colors.white70),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -133,11 +160,13 @@ class EventsScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Placeholder for adding a new event
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Ajouter un nouvel événement')),
-          );
+        onPressed: () async {
+          final res = await Navigator.of(context).pushNamed(EventEditScreen.routeName);
+          if (res != null && res is Event) {
+            setState(() {
+              _events.add(res);
+            });
+          }
         },
         child: const Icon(Icons.add),
       ),
