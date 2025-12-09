@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'screens/events_screen.dart';
+import 'screens/event_detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +32,10 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      routes: {
+        EventsScreen.routeName: (ctx) => const EventsScreen(),
+        EventDetailScreen.routeName: (ctx) => EventDetailScreen(),
+      },
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

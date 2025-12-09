@@ -60,12 +60,13 @@ class EventsScreen extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             elevation: 4,
             child: InkWell(
-              onTap: () {
-                // Placeholder: later navigate to a detail screen
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Ouvrir : ${e.title}')),
-                );
-              },
+                  onTap: () {
+                    // Navigate to event detail screen
+                    Navigator.of(context).pushNamed(
+                      EventDetailScreen.routeName,
+                      arguments: e,
+                    );
+                  },
               child: Row(
                 children: [
                   Container(
