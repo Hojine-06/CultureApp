@@ -1,0 +1,29 @@
+{
+  "musics": [
+    {
+      "id": "1",
+      "title": "Musique 1",
+      "artist": "Artiste 1",
+      "genre": "Zinli",
+      "imageUrl": "assets/images/music1.jpg",
+      "audioUrl": "assets/audio/music1.mp3"
+    },
+    {
+      "id": "2",
+      "title": "Musique 2",
+      "artist": "Artiste 2",
+      "genre": "Tchinkounmé",
+      "imageUrl": "assets/images/music2.jpg",
+      "audioUrl": "assets/audio/music2.mp3"
+    }
+  ],
+  "videos": [
+    {
+      "id": "1",
+      "title": "Vidéo 1",
+      "description": "Vidéo sur danse traditionnelle",
+      "videoUrl": "https://www.example.com/video1.mp4",
+      "thumbnailUrl": "assets/images/video1.jpg"
+    }
+  ]
+}
