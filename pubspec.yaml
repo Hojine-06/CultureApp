@@ -64,6 +64,12 @@ flutter:
     - assets/images/event1.svg
     - assets/images/event2.svg
     - assets/images/event3.svg
+    - assets/images/mus.jpg
+    - assets/images/art.jpg
+    - assets/images/danse.jpg
+    - assets/images/musiquue.webp
+    - assets/images/dans.jpg
+    - assets/images/art.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

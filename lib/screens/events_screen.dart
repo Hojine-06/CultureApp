@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import '../models/event_model.dart';
 import 'event_detail_screen.dart';
 import 'event_edit_screen.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// flutter_svg not needed here because we use raster images (Image.asset)
 
 class EventsScreen extends StatefulWidget {
   static const routeName = '/events';
 
-  const EventsScreen({Key? key}) : super(key: key);
+  const EventsScreen({super.key});
 
   @override
   State<EventsScreen> createState() => _EventsScreenState();
@@ -25,7 +25,7 @@ class _EventsScreenState extends State<EventsScreen> {
           description: 'Un concert exceptionnel réunissant de grands artistes.',
           date: DateTime.now().add(const Duration(days: 7)),
           location: 'Théâtre Municipal',
-          imageUrl: 'asset:assets/images/event1.svg',
+          imageUrl: 'asset:assets/images/mus.jpg',
         ),
         Event(
           id: 'e2',
@@ -33,7 +33,7 @@ class _EventsScreenState extends State<EventsScreen> {
           description: 'Nouvelles œuvres d\'artistes locaux et internationaux.',
           date: DateTime.now().add(const Duration(days: 14)),
           location: 'Galerie Centrale',
-          imageUrl: 'asset:assets/images/event2.svg',
+          imageUrl: 'asset:assets/images/art.jpg',
         ),
         Event(
           id: 'e3',
@@ -41,7 +41,7 @@ class _EventsScreenState extends State<EventsScreen> {
           description: 'Trois jours de performances et d\'ateliers participatifs.',
           date: DateTime.now().add(const Duration(days: 21)),
           location: 'Parc des Expositions',
-          imageUrl: 'asset:assets/images/event3.svg',
+          imageUrl: 'asset:assets/images/danse.jpg',
         ),
       ];
 
@@ -63,6 +63,20 @@ class _EventsScreenState extends State<EventsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Événements'),
+        actions: [
+          IconButton(
+            tooltip: 'Ajouter',
+            icon: const Icon(Icons.add),
+            onPressed: () async {
+              final res = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EventEditScreen()));
+              if (res != null && res is Event) {
+                setState(() {
+                  _events.add(res);
+                });
+              }
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(12),
@@ -73,19 +87,25 @@ class _EventsScreenState extends State<EventsScreen> {
             margin: const EdgeInsets.symmetric(vertical: 8),
             elevation: 4,
             child: InkWell(
-              onTap: () {
-                // Navigate to event detail screen
-                Navigator.of(context).pushNamed(
-                  EventDetailScreen.routeName,
-                  arguments: e,
-                );
+              onTap: () async {
+                // Navigate to event detail screen using MaterialPageRoute with the Event
+                final res = await Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => EventDetailScreen(event: e),
+                ));
+                // If detail returned an updated Event, apply it to the list
+                if (res != null && res is Event) {
+                  setState(() {
+                    final idx = _events.indexWhere((ev) => ev.id == res.id);
+                    if (idx >= 0) _events[idx] = res;
+                  });
+                }
               },
               onLongPress: () async {
-                // Edit event
-                final res = await Navigator.of(context).pushNamed(
-                  EventEditScreen.routeName,
-                  arguments: e,
-                );
+                // Edit event using MaterialPageRoute and pass arguments via RouteSettings
+                final res = await Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => const EventEditScreen(),
+                  settings: RouteSettings(arguments: e),
+                ));
                 if (res != null && res is Event) {
                   setState(() {
                     final idx = _events.indexWhere((ev) => ev.id == res.id);
@@ -96,14 +116,29 @@ class _EventsScreenState extends State<EventsScreen> {
               child: Row(
                 children: [
                   Container(
-                    width: 120,
-                    height: 100,
+                    width: 140,
+                    height: 140,
                     color: Colors.grey.shade300,
-                    child: e.imageUrl != null && e.imageUrl!.startsWith('asset:')
-                        ? SvgPicture.asset(e.imageUrl!.substring(6), fit: BoxFit.cover)
-                        : (e.imageUrl != null
-                            ? Image.network(e.imageUrl!, fit: BoxFit.cover, errorBuilder: (ctx, err, stack) => const Icon(Icons.broken_image))
-                            : const Icon(Icons.event, size: 48, color: Colors.white70)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: e.imageUrl != null && e.imageUrl!.startsWith('asset:')
+                          ? Image.asset(
+                              e.imageUrl!.substring(6),
+                              fit: BoxFit.cover,
+                              width: 140,
+                              height: 140,
+                              errorBuilder: (ctx, err, stack) => const Icon(Icons.broken_image),
+                            )
+                          : (e.imageUrl != null
+                              ? Image.network(
+                                  e.imageUrl!,
+                                  fit: BoxFit.cover,
+                                  width: 140,
+                                  height: 140,
+                                  errorBuilder: (ctx, err, stack) => const Icon(Icons.broken_image),
+                                )
+                              : const Icon(Icons.event, size: 48, color: Colors.white70)),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -157,7 +192,7 @@ class _EventsScreenState extends State<EventsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final res = await Navigator.of(context).pushNamed(EventEditScreen.routeName);
+          final res = await Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EventEditScreen()));
           if (res != null && res is Event) {
             setState(() {
               _events.add(res);

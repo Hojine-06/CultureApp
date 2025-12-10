@@ -5,7 +5,7 @@ import '../models/event_model.dart';
 class EventEditScreen extends StatefulWidget {
   static const routeName = '/event-edit';
 
-  const EventEditScreen({Key? key}) : super(key: key);
+  const EventEditScreen({super.key});
 
   @override
   State<EventEditScreen> createState() => _EventEditScreenState();

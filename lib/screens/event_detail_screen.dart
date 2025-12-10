@@ -1,48 +1,58 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../models/event_model.dart';
+import 'event_edit_screen.dart';
 
 class EventDetailScreen extends StatelessWidget {
   static const routeName = '/event-detail';
 
-  const EventDetailScreen({Key? key}) : super(key: key);
+  final Event? event;
+
+  const EventDetailScreen({super.key, this.event});
 
   String _formatDate(DateTime d) {
     final local = d.toLocal();
-    return '${local.year}-${local.month.toString().padLeft(2, '0')}-${local.day.toString().padLeft(2, '0')}';
+    return "${local.year}-${local.month.toString().padLeft(2, '0')}-${local.day.toString().padLeft(2, '0')}";
   }
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments;
-    if (args == null || args is! Event) {
+    final Event? args = event ?? ModalRoute.of(context)?.settings.arguments as Event?;
+    if (args == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Détails')),
         body: const Center(child: Text('Aucun événement sélectionné.')),
       );
     }
-
-    final event = args as Event;
+    final ev = args;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(event.title),
+        title: Text(ev.title),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Affiche l'image si l'URL est fournie, sinon un placeholder.
-            if (event.imageUrl != null && event.imageUrl!.isNotEmpty)
+            if (ev.imageUrl != null && ev.imageUrl!.isNotEmpty)
               SizedBox(
                 width: double.infinity,
                 height: 200,
-                child: event.imageUrl!.startsWith('asset:')
-                    ? SvgPicture.asset(event.imageUrl!.substring(6), fit: BoxFit.cover)
+                child: ev.imageUrl!.startsWith('asset:')
+                    ? (ev.imageUrl!.substring(6).toLowerCase().endsWith('.svg')
+                        ? SvgPicture.asset(ev.imageUrl!.substring(6), fit: BoxFit.cover)
+                        : Image.asset(
+                            ev.imageUrl!.substring(6),
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => Container(
+                              color: Colors.grey.shade200,
+                              child: const Center(child: Icon(Icons.broken_image, size: 48)),
+                            ),
+                          ))
                     : Image.network(
-                        event.imageUrl!,
+                        ev.imageUrl!,
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
@@ -68,7 +78,7 @@ class EventDetailScreen extends StatelessWidget {
               ),
             const SizedBox(height: 12),
             Text(
-              event.title,
+              ev.title,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
@@ -76,22 +86,28 @@ class EventDetailScreen extends StatelessWidget {
               children: [
                 const Icon(Icons.calendar_today, size: 16),
                 const SizedBox(width: 6),
-                Text(_formatDate(event.date)),
+                Text(_formatDate(ev.date)),
                 const SizedBox(width: 16),
                 const Icon(Icons.location_on, size: 16),
                 const SizedBox(width: 6),
-                Expanded(child: Text(event.location)),
+                Expanded(child: Text(ev.location)),
               ],
             ),
             const SizedBox(height: 12),
-            Text(event.description),
+            Text(ev.description),
             const SizedBox(height: 24),
             ElevatedButton.icon(
-              onPressed: () {
-                // Placeholder: open editor or share
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Action: Éditer / Partager')),
-                );
+              onPressed: () async {
+                // Capture NavigatorState to avoid using BuildContext across async gap
+                final nav = Navigator.of(context);
+                final res = await nav.push(MaterialPageRoute(
+                  builder: (_) => const EventEditScreen(),
+                  settings: RouteSettings(arguments: ev),
+                ));
+                // If an Event was returned, pop this detail screen with the updated event
+                if (res != null && res is Event) {
+                  nav.pop(res);
+                }
               },
               icon: const Icon(Icons.edit),
               label: const Text('Éditer cet événement'),
