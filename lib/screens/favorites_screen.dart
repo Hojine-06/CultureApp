@@ -45,7 +45,44 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _favorites.isEmpty
-              ? const Center(child: Text('Aucun favori pour le moment'))
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.favorite_border, size: 72, color: Colors.pinkAccent),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Vous n\'avez pas encore de favoris',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Ajoutez des questions ou événements en favoris pour les retrouver ici.',
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => Navigator.pushNamed(context, '/quiz'),
+                              child: const Text('Explorer les quiz'),
+                            ),
+                            const SizedBox(width: 12),
+                            OutlinedButton(
+                              onPressed: () => Navigator.pushNamed(context, '/events'),
+                              child: const Text('Voir événements'),
+                              style: OutlinedButton.styleFrom(foregroundColor: Colors.pinkAccent),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               : ListView.separated(
                   padding: const EdgeInsets.all(12),
                   itemCount: _favorites.length,
