@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screens/favorites_screen.dart';
-import 'screens/events_screen.dart';
-import 'screens/quiz_screen.dart';
+import 'package:culture_app/screens/favorites_screen.dart';
+import 'package:culture_app/screens/events_screen.dart';
+import 'package:culture_app/screens/quiz_screen.dart';
 
 void main() {
   runApp(const MyApp());
