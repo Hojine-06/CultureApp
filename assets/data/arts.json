@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Masque Gèlèdé",
+    "artist": "Artiste inconnu",
+    "description": "Masque utilisé dans la danse traditionnelle Gèlèdé pour célébrer les femmes et les ancêtres.",
+    "imageUrl": "masqueguelede.webp",
+    "category": "Masque"
+  },
+  {
+    "id": "2",
+    "name": "Statue Fon",
+    "artist": "Artisan local",
+    "description": "Sculpture traditionnelle en bois représentant un ancêtre.",
+    "imageUrl": "fetiche.jpg",
+    "category": "Sculpture"
+  },
+  {
+    "id": "3",
+    "name": "Tissu Adja",
+    "artist": "Artisan textile",
+    "description": "Tissu traditionnel imprimé à la main avec motifs ethniques.",
+    "imageUrl": "fillepagne.jpg",
+    "category": "Textile"
+  }
+]

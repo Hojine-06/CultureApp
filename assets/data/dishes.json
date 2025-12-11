@@ -1,0 +1,126 @@
+[
+  {
+    "id": "1",
+    "name": "Amiwo",
+    "nameInFon": "Amiwo",
+    "description": "Pâte de maïs rouge préparée avec de la tomate et servie avec du poulet ou du poisson",
+    "region": "Sud Bénin",
+    "ingredients": [
+      "500g de farine de maïs",
+      "4 tomates fraîches",
+      "2 oignons",
+      "Huile de palme",
+      "Piment",
+      "Sel",
+      "Poisson ou poulet"
+    ],
+    "steps": [
+      "Faire bouillir de l'eau dans une grande marmite",
+      "Mélanger progressivement la farine de maïs avec l'eau bouillante",
+      "Remuer constamment pour éviter les grumeaux",
+      "Préparer une sauce tomate avec oignons, piment et huile de palme",
+      "Verser la sauce sur la pâte",
+      "Servir avec du poisson grillé ou du poulet"
+    ],
+    "imageUrl": "assets/images/food/amiwo.jpeg",
+    "category": "Plat principal",
+    "prepTime": 45,
+    "difficulty": "Moyen"
+  },
+  {
+    "id": "2",
+    "name": "Akassa",
+    "nameInFon": "Akassa",
+    "description": "Pâte de maïs fermentée, servie avec une sauce piquante",
+    "region": "Sud Bénin",
+    "ingredients": [
+      "1kg de maïs blanc",
+      "Eau",
+      "Sel"
+    ],
+    "steps": [
+      "Tremper le maïs dans l'eau pendant 2-3 jours pour fermentation",
+      "Moudre le maïs fermenté",
+      "Faire cuire la pâte dans de l'eau bouillante",
+      "Remuer jusqu'à obtenir une consistance lisse",
+      "Servir avec une sauce d'accompagnement"
+    ],
+    "imageUrl": "assets/images/food/akassa.jpeg",
+    "category": "Plat principal",
+    "prepTime": 60,
+    "difficulty": "Difficile"
+  },
+  {
+    "id": "3",
+    "name": "Pâte et sauce d'arachide",
+    "nameInFon": "Atassi",
+    "description": "Pâte de maïs ou igname servie avec une riche sauce aux arachides",
+    "region": "Nord Bénin",
+    "ingredients": [
+      "Pâte de maïs ou igname pilée",
+      "200g de pâte d'arachide",
+      "Viande (bœuf ou mouton)",
+      "Tomates",
+      "Oignons",
+      "Épices locales"
+    ],
+    "steps": [
+      "Préparer la pâte de maïs ou piler l'igname",
+      "Faire revenir la viande avec les oignons",
+      "Ajouter les tomates et la pâte d'arachide",
+      "Laisser mijoter 30 minutes",
+      "Servir la sauce chaude sur la pâte"
+    ],
+    "imageUrl": "assets/images/food/atassi.jpeg",
+    "category": "Plat principal",
+    "prepTime": 90,
+    "difficulty": "Moyen"
+  },
+  {
+    "id": "4",
+    "name": "Tchoukoutou",
+    "nameInFon": "Tchoukoutou",
+    "description": "Bière traditionnelle à base de mil ou sorgho",
+    "region": "Nord Bénin",
+    "ingredients": [
+      "Mil ou sorgho",
+      "Eau",
+      "Sucre (optionnel)"
+    ],
+    "steps": [
+      "Faire germer le mil pendant 3 jours",
+      "Sécher et moudre le mil germé",
+      "Faire bouillir avec de l'eau",
+      "Laisser fermenter 2-3 jours",
+      "Filtrer et servir frais"
+    ],
+    "imageUrl": "assets/images/food/tchoukoutou.jpeg",
+    "category": "Boisson",
+    "prepTime": 4320,
+    "difficulty": "Difficile"
+  },
+  {
+    "id": "5",
+    "name": "Kluiklui",
+    "nameInFon": "Kluiklui",
+    "description": "Gâteau d'arachide frit, snack croustillant",
+    "region": "Tout le Bénin",
+    "ingredients": [
+      "Arachides grillées",
+      "Sel",
+      "Piment (optionnel)",
+      "Huile pour friture"
+    ],
+    "steps": [
+      "Moudre les arachides grillées",
+      "Ajouter sel et piment",
+      "Former des galettes ou boulettes",
+      "Frire dans l'huile chaude jusqu'à dorure",
+      "Égoutter et servir"
+    ],
+    "imageUrl": "assets/images/food/kluiklui.jpeg",
+    "category": "Snack",
+    "prepTime": 30,
+    "difficulty": "Facile"
+  }
+]

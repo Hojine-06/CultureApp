@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Palais Royal d'Abomey",
+    "description": "Ancien palais royal des rois du Dahomey, site historique inscrit au patrimoine mondial de l'UNESCO.",
+    "imageUrl": "palaisroyauxabomey.jpg",
+    "region": "Sud Bénin",
+    "category": "Historique"
+  },
+  {
+    "id": "2",
+    "name": "Ouidah",
+    "description": "Ville historique connue pour sa Route des Esclaves et ses musées.",
+    "imageUrl": "ouidah.jpeg",
+    "region": "Sud Bénin",
+    "category": "Historique"
+  },
+  {
+    "id": "3",
+    "name": "Tata Somba",
+    "description": "Habitat traditionnel des ethnies Somba avec architecture en terre.",
+    "imageUrl": "tatasomba.webp",
+    "region": "Nord Bénin",
+    "category": "Culturel"
+  }
+]
